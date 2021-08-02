@@ -1,10 +1,10 @@
 Name:   disable-hardware-prefetch
-Version:    0.1 
+Version:    0.1.1
 Release:    1%{?dist}
 Summary:    Disable hardware prefetch on Intel CPU
 License:    GPL
-URL:	    https://github.com/pjakma/disable-hardware-prefetch
-Source:    disable-hardware-prefetch-%{version}.tar.gz
+URL:        https://github.com/pjakma/disable-hardware-prefetch
+Source:     disable-hardware-prefetch-%{version}.tar.gz
 
 BuildRequires: systemd-rpm-macros
 %{?systemd_requires}
@@ -21,14 +21,14 @@ https://software.intel.com/content/www/us/en/develop/articles/optimizing-applica
 %global debug_package %{nil}
 
 %prep
-%autosetup -q
+%autosetup -p1
 
 %build
 
 %post
 %systemd_post %{name}.service
 
-	
+        
 %preun
 %systemd_preun %{name}.service
  
@@ -51,6 +51,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/%{name}.service
 
 %changelog
+* Mon Aug 02 2021 Paul Jakma <paul@jakma.org> 0.1.1-1
+- Fedora Copr doesn't know _unitdir on Fedora for some reason, try fix.
+  (paul@jakma.org)
+
 * Mon Aug 02 2021 Paul Jakma <paul@jakma.org> 0.1-1
 - new package built with tito
 
