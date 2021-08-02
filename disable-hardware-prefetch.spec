@@ -40,3 +40,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/disable-hardware-prefetch.service
 
 %changelog
+* Mon Aug 02 2021 Paul Jakma <paul@jakma.org> 0.1-1
+- new package built with tito
+
