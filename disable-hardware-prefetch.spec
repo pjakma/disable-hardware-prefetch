@@ -6,6 +6,9 @@ License:    GPL
 URL:	    https://github.com/pjakma/disable-hardware-prefetch
 Source:    disable-hardware-prefetch-%{version}.tar.gz
 
+BuildRequires: systemd-rpm-macros
+%{?systemd_requires}
+
 
 %description
 Disable hardware prefetchers on Intel CPU, via model specific registers.
@@ -18,11 +21,19 @@ https://software.intel.com/content/www/us/en/develop/articles/optimizing-applica
 %global debug_package %{nil}
 
 %prep
-%setup -q
-
+%autosetup -q
 
 %build
 
+%post
+%systemd_post %{name}.service
+
+	
+%preun
+%systemd_preun %{name}.service
+ 
+%postun
+%systemd_postun_with_restart %{name}.service
 
 %install
 install --directory $RPM_BUILD_ROOT%{_sbindir}
@@ -36,8 +47,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
-%{_sbindir}/disable-hardware-prefetch.sh
-%{_unitdir}/disable-hardware-prefetch.service
+%{_sbindir}/%{name}.sh
+%{_unitdir}/%{name}.service
 
 %changelog
 * Mon Aug 02 2021 Paul Jakma <paul@jakma.org> 0.1-1
